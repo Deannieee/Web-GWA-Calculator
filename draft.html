@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GWA Calculator</title>
+</head>
+
+<body>
+
+    <h1 class="display-2">GWA Calculator</h1>
+
+    <div class="simple-average">
+
+    </div>
+
+    <div class="general-weighted-average">
+        <!-- Prevent number inputs through JS -->
+        <div class="subjects-container">
+            <input type="text" name="units" class="units" placeholder="Units" />
+            <input type="text" name="final-grade" class="final-grade" placeholder="Final Grade" />
+        </div>
+        <button id="add-subject">ADD</button>
+        <button id="calculate-gwa">Calculate</button>
+    </div>
+
+    <script>
+        const addSubjectButton = document.getElementById("add-subject");
+        const subjectsContainer = document.querySelector(".subjects-container");
+        const calculateGwaButton = document.getElementById("calculate-gwa");
+
+        addSubjectButton.addEventListener("click", () => {
+            const newSubject = document.createElement("div");
+            newSubject.classList.add('subject');
+            newSubject.innerHTML = `
+                <input type="text" name="units" class="units" placeholder="Units" /> 
+                <input type="text" name="final-grade" class="final-grade" placeholder="Final Grade" />
+            `;
+            subjectsContainer.appendChild(newSubject);
+        });
+
+        calculateGwaButton.addEventListener('click', () => {
+            const units = document.querySelectorAll('.units');
+            const finalGrades = document.querySelectorAll('.final-grade');
+            let totalUnits = 0;
+            let weightedSum = 0;
+
+            units.forEach((unitInput, index) => {
+                const unitsValue = parseFloat(unitInput.value) || 0;
+                const gradeValue = parseFloat(finalGrades[index].value) || 0;
+                totalUnits += unitsValue;
+                weightedSum += unitsValue * gradeValue;
+            });
+            const gwa = totalUnits ? (weightedSum / totalUnits).toFixed(2) : 0;
+            alert(`Your General Weighted Average (GWA) is: ${gwa}`);
+        });
+
+    </script>
+</body>
+
+</html>
